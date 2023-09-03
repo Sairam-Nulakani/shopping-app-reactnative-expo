@@ -7,28 +7,56 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  Alert,
+  ImageBackground,
 } from "react-native";
-import { COLORS, SIZES } from "../assets/constants/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Logo from "../assets/Clean-Cart-Logo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  useEffect(() => {
+    const checkLoginStatus = async (req, res) => {
+      try {
+        const token = await AsyncStorage.getItem("authToken");
+        if (token) {
+          navigation.replace("Main");
+        }
+      } catch (err) {
+        console.log("error message : ", err);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  const handleLogin = () => {
+    const user = { email: email, password: password };
+    axios
+      .post("http://localhost:8080/api/users/login", user)
+      .then((res) => {
+        console.log(res);
+        const token = res.data.token;
+        AsyncStorage.setItem("authToken", token);
+        navigation.replace("Main");
+      })
+      .catch((err) => {
+        Alert.alert("Login Error", "Invalid Email");
+        console.log(err);
+      });
+  };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}
+      style={{ flex: 1, backgroundColor: "#FFF8FD", alignItems: "center" }}
     >
       <View>
-        <Image
-          source={{
-            uri: "https://graphiccloud.net/wp-content/uploads/2021/07/Clean-Cart-Logo-Design.jpg",
-          }}
-          style={{ width: 150, height: 100 }}
-        />
+        <Image source={Logo} style={{ width: 150, height: 100 }} />
       </View>
       <KeyboardAvoidingView>
         <View style={{ alignItems: "center" }}>
@@ -53,10 +81,11 @@ const Login = () => {
               paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
+              backgroundColor: "#A505D0",
             }}
           >
             <MaterialCommunityIcons
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, color: "white" }}
               name="email"
               size={24}
               color="gray"
@@ -67,6 +96,7 @@ const Login = () => {
                 marginVertical: 10,
                 width: 300,
                 fontSize: 16,
+                color: "white",
               }}
               placeholder="Email"
               value={email}
@@ -84,10 +114,11 @@ const Login = () => {
               paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
+              backgroundColor: "#A505D0",
             }}
           >
             <Entypo
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, color: "white" }}
               name="lock"
               size={24}
               color="gray"
@@ -98,6 +129,7 @@ const Login = () => {
                 marginVertical: 10,
                 width: 300,
                 fontSize: 16,
+                color: "white",
               }}
               placeholder="Password"
               value={password}
@@ -129,6 +161,7 @@ const Login = () => {
             marginRight: "auto",
             padding: 15,
           }}
+          onPress={handleLogin}
         >
           <Text
             style={{

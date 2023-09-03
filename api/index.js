@@ -3,9 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const cors = require("cors");
 const userRouter = require("../api/routes/userRoute");
@@ -24,7 +22,11 @@ mongoose
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
-app.use("/api/users", verifyToken, userRouter);
-app.listen(8080, () => {
-  console.log("Server running.....");
+app.use("/api/users", userRouter);
+app.use("/api/users", userRouter);
+app.use("/", verifyToken);
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

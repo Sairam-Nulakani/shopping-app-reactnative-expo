@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
 
 const sendVerificationEmail = async (email, verificationToken) => {
   //nodemailer transport
@@ -24,6 +25,13 @@ const sendVerificationEmail = async (email, verificationToken) => {
   }
 };
 
+const generateSecretKey = () => {
+  const secretKey = crypto.randomBytes(32).toString("hex");
+  return secretKey;
+};
+
+const secretKey = generateSecretKey();
+
 module.exports = {
   registerUser: async (req, res) => {
     try {
@@ -35,10 +43,26 @@ module.exports = {
       const newUser = new User({ name, email, password });
       newUser.verificationToken = crypto.randomBytes(20).toString("hex");
       await newUser.save();
-      return res.status(200).json(newUser);
+      res.status(200).json(newUser);
       sendVerificationEmail(newUser.email, newUser.verificationToken);
     } catch (err) {
       return res.status(500).json("Failed to Register");
+    }
+  },
+  loginUser: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json("No User with given credentials"); // Return and exit
+      }
+      if (user.password !== password) {
+        return res.status(401).json("Wrong Password"); // Return and exit
+      }
+      const token = jwt.sign({ userId: user._id }, secretKey);
+      res.status(200).json({ token });
+    } catch (err) {
+      return res.status(500).json({ message: "Failed to log in" });
     }
   },
 };

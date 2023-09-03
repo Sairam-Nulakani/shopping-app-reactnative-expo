@@ -7,29 +7,52 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import Logo from "../assets/Clean-Cart-Logo.png";
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const handleRegister = () => {
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    axios
+      .post("http://localhost:8080/api/users/register", user)
+      .then((res) => {
+        console.log(res);
+        Alert.alert(
+          "Registered Successfully",
+          "You have registered successfully"
+        );
+        setName("");
+        setPassword("");
+        setEmail("");
+        navigation.navigate("Login");
+      })
+      .catch((err) => {
+        Alert.alert("Regestration error", "Error occured while regestering");
+        console.log("Regestration Failed", err);
+      });
+  };
+
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: "white", alignItems: "center" }}
+      style={{ flex: 1, backgroundColor: "#FFF8FD", alignItems: "center" }}
     >
       <View>
-        <Image
-          source={{
-            uri: "https://graphiccloud.net/wp-content/uploads/2021/07/Clean-Cart-Logo-Design.jpg",
-          }}
-          style={{ width: 150, height: 100 }}
-        />
+        <Image source={Logo} style={{ width: 150, height: 100 }} />
       </View>
       <KeyboardAvoidingView>
         <View style={{ alignItems: "center" }}>
@@ -54,10 +77,11 @@ const Register = () => {
               paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
+              backgroundColor: "#A505D0",
             }}
           >
             <Ionicons
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, color: "white" }}
               name="person"
               size={24}
               color="gray"
@@ -68,6 +92,7 @@ const Register = () => {
                 marginVertical: 10,
                 width: 300,
                 fontSize: 16,
+                color: "white",
               }}
               placeholder="Name"
               value={name}
@@ -86,10 +111,11 @@ const Register = () => {
               paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
+              backgroundColor: "#A505D0",
             }}
           >
             <MaterialCommunityIcons
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, color: "white" }}
               name="email"
               size={24}
               color="gray"
@@ -100,6 +126,7 @@ const Register = () => {
                 marginVertical: 10,
                 width: 300,
                 fontSize: 16,
+                color: "white",
               }}
               placeholder="Email"
               value={email}
@@ -117,10 +144,11 @@ const Register = () => {
               paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
+              backgroundColor: "#A505D0",
             }}
           >
             <Entypo
-              style={{ marginLeft: 8 }}
+              style={{ marginLeft: 8, color: "white" }}
               name="lock"
               size={24}
               color="gray"
@@ -131,6 +159,7 @@ const Register = () => {
                 marginVertical: 10,
                 width: 300,
                 fontSize: 16,
+                color: "white",
               }}
               placeholder="Password"
               value={password}
@@ -146,12 +175,7 @@ const Register = () => {
             alignItems: "center",
             justifyContent: "space-between",
           }}
-        >
-          <Text>Keep me logged in</Text>
-          <Text style={{ color: "#007FFF", fontFamily: "semibold" }}>
-            Forgot Password
-          </Text>
-        </View>
+        ></View>
         <View style={{ marginTop: 50 }} />
         <TouchableOpacity
           style={{
@@ -162,6 +186,7 @@ const Register = () => {
             marginRight: "auto",
             padding: 15,
           }}
+          onPress={handleRegister}
         >
           <Text
             style={{
