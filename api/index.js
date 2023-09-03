@@ -8,6 +8,8 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const cors = require("cors");
+const userRouter = require("../api/routes/userRoute");
+const verifyToken = require("../api/routes/verifyToken");
 dotenv.config();
 
 app.use(cors());
@@ -22,6 +24,7 @@ mongoose
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
 
+app.use("/api/users", verifyToken, userRouter);
 app.listen(8080, () => {
   console.log("Server running.....");
 });
