@@ -74,7 +74,6 @@ const Register = () => {
               alignItems: "center",
               gap: 5,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
               backgroundColor: "#A505D0",
@@ -89,10 +88,12 @@ const Register = () => {
             <TextInput
               style={{
                 color: "gray",
-                marginVertical: 10,
+                marginVertical: 5,
+                marginHorizontal: 3,
                 width: 300,
                 fontSize: 16,
                 color: "white",
+                paddingVertical: 10,
               }}
               placeholder="Name"
               value={name}
@@ -108,7 +109,6 @@ const Register = () => {
               alignItems: "center",
               gap: 5,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
               backgroundColor: "#A505D0",
@@ -123,10 +123,12 @@ const Register = () => {
             <TextInput
               style={{
                 color: "gray",
-                marginVertical: 10,
+                marginVertical: 5,
+                marginHorizontal: 3,
                 width: 300,
                 fontSize: 16,
                 color: "white",
+                paddingVertical: 10,
               }}
               placeholder="Email"
               value={email}
@@ -141,7 +143,6 @@ const Register = () => {
               alignItems: "center",
               gap: 5,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
               backgroundColor: "#A505D0",
@@ -156,10 +157,12 @@ const Register = () => {
             <TextInput
               style={{
                 color: "gray",
-                marginVertical: 10,
+                marginVertical: 5,
+                marginHorizontal: 3,
                 width: 300,
                 fontSize: 16,
                 color: "white",
+                paddingVertical: 10,
               }}
               placeholder="Password"
               value={password}

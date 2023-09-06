@@ -8,7 +8,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ImageBackground,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -78,7 +77,6 @@ const Login = () => {
               alignItems: "center",
               gap: 5,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
               backgroundColor: "#A505D0",
@@ -93,10 +91,13 @@ const Login = () => {
             <TextInput
               style={{
                 color: "gray",
-                marginVertical: 10,
+                marginVertical: 5,
+                marginHorizontal: 3,
                 width: 300,
                 fontSize: 16,
                 color: "white",
+                paddingVertical: 10,
+                borderColor: "transparent",
               }}
               placeholder="Email"
               value={email}
@@ -111,7 +112,6 @@ const Login = () => {
               alignItems: "center",
               gap: 5,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 7,
               borderRadius: 5,
               marginTop: 30,
               backgroundColor: "#A505D0",
@@ -126,10 +126,13 @@ const Login = () => {
             <TextInput
               style={{
                 color: "gray",
-                marginVertical: 10,
+                marginVertical: 5,
+                marginHorizontal: 3,
                 width: 300,
                 fontSize: 16,
                 color: "white",
+                paddingVertical: 10,
+                borderColor: "transparent",
               }}
               placeholder="Password"
               value={password}
